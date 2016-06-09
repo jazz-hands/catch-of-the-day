@@ -1,12 +1,14 @@
 import React from 'react';
 
-import ReactRouter from 'react-router';
-
+import { Router, Route } from 'react-router';
+/*
 import Router from 'react-router';
 import Route from 'react-router';
 //import History from 'react-router';
+*/
+import { createHistory } from 'history';
+//import createHistory from 'history';
 
-import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 import App from './App';
 import NotFound from './NotFound';
@@ -17,7 +19,7 @@ import StorePicker from './StorePicker';
 */
 
 var routes = (
-<Router history={createBrowserHistory()}>
+<Router history={createHistory()}>
   <Route path="/" component={StorePicker}/>
   <Route path="/store/:storeID" component={App}/>
   <Route path="*" component={NotFound}/>

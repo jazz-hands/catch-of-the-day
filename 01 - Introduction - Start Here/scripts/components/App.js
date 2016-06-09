@@ -1,14 +1,13 @@
 import React from 'react';
 
-import Rebase from 're-base';
 import Catalyst from 'react-catalyst';
 import Header from './Header';
 import Order from './Order';
 import Inventory from './Inventory';
 import Fish from './Fish';
 import fishes from '../sample-fishes';
-
-
+//Firebase API:
+import Rebase from 're-base';
 var base = Rebase.createClass('https://catch-of-the-day-78ad9.firebaseio.com/');
 
 /*
