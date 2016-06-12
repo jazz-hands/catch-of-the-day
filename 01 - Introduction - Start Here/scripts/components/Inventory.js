@@ -1,5 +1,5 @@
 import React from 'react';
-//import Rebase from 're-base';
+import Rebase from 're-base';
 import AddFishForm from './AddFishForm';
 import h from '../helpers';
 import autobind from 'autobind-decorator';
