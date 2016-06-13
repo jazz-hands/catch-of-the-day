@@ -1,10 +1,11 @@
 import React from 'react';
+import autobind from 'autobind-decorator';
 
 
 //Header <Header/>
-
-var Header = React.createClass({
-  render : function(){
+@autobind
+class Header extends React.Component{
+  render(){
     return (
       <header className="top">
         <h1>Catch
@@ -16,11 +17,12 @@ var Header = React.createClass({
       </header>
 
     )
-  },
+  }
+
   propTypes : {
     tagline : React.PropTypes.string.isRequired
   }
 
-});
+};
 
 export default Header;

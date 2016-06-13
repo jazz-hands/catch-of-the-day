@@ -1,16 +1,15 @@
+//Inventory <Inventory/>
+
 import React from 'react';
-//import Rebase from 're-base';
 import AddFishForm from './AddFishForm';
-//import h from '../helpers';
 import autobind from 'autobind-decorator';
 import Firebase from 'firebase';
-// const ref = new Firebase('https://catch-of-the-day.firebaseio.com/');
-// const ref = new Firebase('https://catch-of-the-day-78ad9.firebaseio.com/');
 const ref = new Firebase('https://my-catch-app.firebaseio.com/');
+import base from './App';
+
+// const ref = new Firebase('https://catch-of-the-day-78ad9.firebaseio.com/');
 // const ref = new Firebase('https://auth.firebase.com/v2/catchof-the-day/auth/github/callback');
 
-
-//Inventory <Inventory/>
 
 @autobind
 class Inventory extends React.Component{
@@ -31,9 +30,9 @@ class Inventory extends React.Component{
   componentWillMount() {
     console.log("Checking to see if we can log them in");
     var token = localStorage.getItem('token');
-    if(token) {
-      ref.authWithCustomToken(token,this.authHandler);
-    }
+      if(token) {
+        ref.authWithCustomToken(token,this.authHandler);
+      }
   }
 
   logout(){
@@ -53,8 +52,6 @@ class Inventory extends React.Component{
 
     //save the login token in the browser
     localStorage.setItem('token', authData.token);
-    console.log(authData.token);
-
     const storeRef = ref.child(this.props.params.storeID);
 
     storeRef.on('value', (snapshot) => {
@@ -75,14 +72,14 @@ class Inventory extends React.Component{
     });
   }
 
-  renderLogin = () => {
+  renderLogin() {
     return (
       <nav className="login">
         <h2>Inventory</h2>
         <p>Sign in to manage your store's inventory</p>
-        <button className="github" onClick={this.authenticate.bind(this, 'github')}>Login with Github</button>
-        <button className="facebook" onClick={this.authenticate.bind(this, 'facebook')}>Login with Facebook</button>
-        <button className="twitter" onClick={this.authenticate.bind(this, 'twitter')}>Login with Twitter</button>
+        <button className="github" onClick={this.authenticate.bind(this, 'github')}>Log In with Github</button>
+        <button className="facebook" onClick={this.authenticate.bind(this, 'facebook')} >Log In with Facebook</button>
+        <button className="twitter" onClick={this.authenticate.bind(this, 'twitter')} >Log In with Twitter</button>
       </nav>
     )
   }
@@ -105,7 +102,7 @@ class Inventory extends React.Component{
     )
   }
 
-  render(){
+  render() {
 
     let logoutButton = <button onClick={this.logout}>Log Out!</button>
 
