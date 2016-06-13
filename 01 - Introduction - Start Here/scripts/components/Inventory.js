@@ -1,10 +1,14 @@
 import React from 'react';
-import Rebase from 're-base';
+//import Rebase from 're-base';
 import AddFishForm from './AddFishForm';
-import h from '../helpers';
+//import h from '../helpers';
 import autobind from 'autobind-decorator';
 import Firebase from 'firebase';
-const ref = new Firebase('https://catch-of-the-day-78ad9.firebaseio.com/');
+// const ref = new Firebase('https://catch-of-the-day.firebaseio.com/');
+// const ref = new Firebase('https://catch-of-the-day-78ad9.firebaseio.com/');
+const ref = new Firebase('https://my-catch-app.firebaseio.com/');
+// const ref = new Firebase('https://auth.firebase.com/v2/catchof-the-day/auth/github/callback');
+
 
 //Inventory <Inventory/>
 
@@ -19,16 +23,16 @@ class Inventory extends React.Component{
     }
   }
 
-  authenticate(provider){
-    ref.authWithOAuthPopup(provider, function(err, authData) {
-      console.log(authData);
-    });
+  authenticate(provider) {
+    console.log("Trying to auth with" + provider);
+    ref.authWithOAuthPopup(provider, this.authHandler);
   }
 
-  componentWillMount(){
+  componentWillMount() {
+    console.log("Checking to see if we can log them in");
     var token = localStorage.getItem('token');
-    if(token){
-      ref.authWithCustomToken(token, this.authHandler);
+    if(token) {
+      ref.authWithCustomToken(token,this.authHandler);
     }
   }
 
@@ -37,43 +41,51 @@ class Inventory extends React.Component{
     localStorage.removeItem('token');
     this.setState({
       uid : null
-    })
+    });
   }
 
-  authHandler(err, authData){
+  authHandler(err, authData) {
     if(err){
-      console.log(err);
+      console.error(err);
+      //console.log(authData);
       return;
     }
 
     //save the login token in the browser
     localStorage.setItem('token', authData.token);
+    console.log(authData.token);
 
     const storeRef = ref.child(this.props.params.storeID);
-    storeRef.on('value', (snapshot)=>{
+
+    storeRef.on('value', (snapshot) => {
       var data = snapshot.val() || {};
       //if no owner claim as owner
       if(!data.owner){
         storeRef.set({
-          uid : authData.uid,
-          owner : data.owner || authData.uid
+          owner : authData.uid
         });
       }
+
+      //update our state to reflect the current store owner
+      this.setState({
+        uid : authData.uid,
+        owner : data.owner || authData.uid
+      });
+
     });
   }
 
-  renderLogin(){
+  renderLogin = () => {
     return (
       <nav className="login">
         <h2>Inventory</h2>
-        <p>Sign in to manage your inventory</p>
+        <p>Sign in to manage your store's inventory</p>
         <button className="github" onClick={this.authenticate.bind(this, 'github')}>Login with Github</button>
         <button className="facebook" onClick={this.authenticate.bind(this, 'facebook')}>Login with Facebook</button>
         <button className="twitter" onClick={this.authenticate.bind(this, 'twitter')}>Login with Twitter</button>
       </nav>
     )
   }
-
 
   renderInventory(key) {
     var linkState = this.props.linkState;
@@ -118,7 +130,7 @@ class Inventory extends React.Component{
    return (
       <div>
         <h2>Inventory</h2>
-        {logoutButton}
+         {logoutButton}
         {Object.keys(this.props.fishes).map(this.renderInventory)}
 
         <AddFishForm {...this.props}/>

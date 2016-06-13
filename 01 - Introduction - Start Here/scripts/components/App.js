@@ -8,7 +8,8 @@ import Fish from './Fish';
 import fishes from '../sample-fishes';
 //Firebase API:
 import Rebase from 're-base';
-var base = Rebase.createClass('https://catch-of-the-day-78ad9.firebaseio.com/');
+ var base = Rebase.createClass('https://catch-of-the-day-78ad9.firebaseio.com/');
+//var base = Rebase.createClass('https://my-catch-app.firebaseio.com/');
 
 /*
 App lives here
@@ -92,7 +93,7 @@ var App = React.createClass({
           </ul>
         </div>
         <Order fishes={this.state.fishes} order={this.state.order}  removeFromOrder={this.removeFromOrder}/>
-        <Inventory addFish={this.addFish} loadSamples={this.loadSamples} fishes={this.state.fishes} linkState={this.linkState} removeFish={this.removeFish} />
+        <Inventory addFish={this.addFish} loadSamples={this.loadSamples} fishes={this.state.fishes} linkState={this.linkState} removeFish={this.removeFish} {...this.props} />
       </div>
 
     )

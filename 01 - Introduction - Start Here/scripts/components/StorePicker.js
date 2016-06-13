@@ -1,6 +1,9 @@
 import React from 'react';
 import {History} from 'react-router';
 import h from '../helpers';
+import Rebase from 're-base';
+var base = Rebase.createClass('https://catch-of-the-day-78ad9.firebaseio.com/');
+
 
 var StorePicker = React.createClass({
     mixins : [History],
